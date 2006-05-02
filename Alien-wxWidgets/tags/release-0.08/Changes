@@ -1,0 +1,40 @@
+Revision history for Perl extension Alien::wxWidgets.
+
+0.08  Sun Apr 30 12:33:01 CEST 2006
+	- Fix the build process with CPANPLUS.
+
+0.07  Mon Apr 24 23:16:30 CEST 2006
+	- Fix the download URL for wxWidgets 2.6.2.
+	- Fix the build process under Windows.
+
+0.06  Sun Apr 23 14:35:47 CEST 2006
+	- Cache the absolute path of the wx-config used, and always
+	  use it during the build even if PATH changes.
+
+0.05  Fri Apr 21 22:40:38 CEST 2006
+	- Work around a Module::Build handling of @INC when
+	  building from CPAN.
+
+0.04  Sun Apr 16 17:01:07 CEST 2006
+	- Optionally build wxWidgets from sources.
+	- Allow some actions (like 'dist') to be executed without
+	  an installed wxWidgets.
+	- Detect when some wxWidgets contrib libraries are not built
+	  on wx-config platforms.
+	- Check for a recent 'nmake' for Win32+MSVC+Bakefile.
+
+0.03  Wed Aug 17 20:57:49 CEST 2005
+	- Allow multiple configurations to be installed at the
+	  same time.
+
+0.02  Wed Aug 17 00:53:40 CEST 2005
+	- Added support for wxWidgets 2.4.x.
+	- Fixed option handling.
+	- Small corrections to the existing code.
+	- Added documentation.
+
+0.01  Tue Aug 16 00:00:12 CEST 2005
+	- First release. Only supports detecting
+	  an already-installed wxWidgets. Works for
+	  wxWidgets 2.5.x/2.6.x under Mac OS X, Windows,
+	  Linux (and probably other Unices).
