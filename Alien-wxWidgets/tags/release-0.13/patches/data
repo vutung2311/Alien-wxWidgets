@@ -1,0 +1,32 @@
+my $VERSION = '2.6.3';
+my $URL     = 'ftp://biolpc22.york.ac.uk/pub/2.6.3';
+my $TYPE    = 'tar.bz2';
+my $BASE    = 'wxWidgets';
+
+my @common = qw(wxWidgets-2.6.3.patch);
+
+{ msw     => { unicode => [ qw(
+wxMSW-2.6.3-setup_u.patch
+wxMSW-2.6.3-config.patch
+wxMSW-2.6.3-magic.patch
+wxMSW-2.6.3-makefiles.patch
+                               ), @common ],
+               ansi    => [ qw(
+wxMSW-2.6.3-setup.patch
+wxMSW-2.6.3-config.patch
+wxMSW-2.6.3-magic.patch
+wxMSW-2.6.3-makefiles.patch
+                               ), @common ],
+               },
+  mac     => { unicode => [ @common ],
+               ansi    => [ @common ],
+               },
+  unix    => { unicode => [ @common ],
+               ansi    => [ @common ],
+               },
+  data    => { url  => ( sprintf '%s/%s-%s.%s', $URL, $BASE, $VERSION, $TYPE ),
+               directory => ( sprintf '%s-%s', $BASE, $VERSION ),
+               archive   => ( sprintf '%s-%s.%s', $BASE, $VERSION, $TYPE ),
+               version   => $VERSION,
+               },
+  };
