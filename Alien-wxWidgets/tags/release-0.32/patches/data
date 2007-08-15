@@ -1,0 +1,30 @@
+my $VERSION = '2.8.4';
+my $URL     = "ftp://biolpc22.york.ac.uk/pub/$VERSION";
+my $BASE    = 'wxWidgets';
+# $TYPE from Build.PL
+
+my @common = qw(wxWidgets-2.8.0-magic.patch);
+
+{ msw     => { unicode => [ qw(
+wxMSW-2.8.0-setup_u.patch
+wxMSW-2.8.4-config.patch
+wxMSW-2.8.0-makefiles.patch
+                               ), @common ],
+               ansi    => [ qw(
+wxMSW-2.8.0-setup.patch
+wxMSW-2.8.4-config.patch
+wxMSW-2.8.0-makefiles.patch
+                               ), @common ],
+               },
+  mac     => { unicode => [ @common ],
+               ansi    => [ @common ],
+               },
+  unix    => { unicode => [ @common ],
+               ansi    => [ @common ],
+               },
+  data    => { url  => ( sprintf '%s/%s-%s.%s', $URL, $BASE, $VERSION, $TYPE ),
+               directory => ( sprintf '%s-%s', $BASE, $VERSION ),
+               archive   => ( sprintf '%s-%s.%s', $BASE, $VERSION, $TYPE ),
+               version   => $VERSION,
+               },
+  };
