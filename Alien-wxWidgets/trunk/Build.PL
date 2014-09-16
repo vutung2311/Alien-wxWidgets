@@ -18,8 +18,9 @@ my %VERSIONS =
     '2.9.1'         => 'patches/data-2.9.1',
     '2.9.2'         => 'patches/data-2.9.2',
     '2.9.3'         => 'patches/data-2.9.3',
-    '2.9.4'	    => 'patches/data-2.9.4',
+    '2.9.4'	        => 'patches/data-2.9.4',
     '3.0.0'         => 'patches/data-3.0.0',
+    '3.0.1'         => 'patches/data-3.0.1',
     );
 
 my ($DEFAULT_VERSION, $DEFAULT_ARCHIVE_TYPE) = _get_default_wxwidgets_version_and_type();
@@ -215,7 +216,7 @@ if( $build_wx ) {
                              'Which wxWidgets version?',
                              [ sort keys %VERSIONS ], $DEFAULT_VERSION );
     
-    $DEFAULT_ARCHIVE_TYPE = 'tar.bz2' if $wx_version =~ /^2\.9/; # no tar.gz at sourceforge site
+    $DEFAULT_ARCHIVE_TYPE = 'tar.bz2' if $wx_version =~ /^(2\.9|3\.)/; # no tar.gz at sourceforge site
     
     $TYPE = _ask( $build, 'wxWidgets-source', 'Which archive type?', $DEFAULT_ARCHIVE_TYPE );
     $URL = $ENV{AWX_URL};
@@ -223,7 +224,7 @@ if( $build_wx ) {
     $build->notes( 'build_data' => do $VERSIONS{$wx_version} );
 }
 
-if( $build_wx && $wx_version !~ /^2\.9/ ) {
+if( $build_wx && $wx_version !~ /^(2\.9|3\.)/ ) {
     my $build_wx_unicode = _askyn( $build, 'wxWidgets-unicode',
                                    'Do you want to enable Unicode support',
                                    'yes' );
@@ -286,7 +287,7 @@ sub _ask {
 sub _get_default_wxwidgets_version_and_type {
     
     # default version and archive type
-    my $defver = '3.0.0';
+    my $defver = '3.0.1';
     my $deftype = 'tar.bz2';
     
     if( $^O =~ /^linux/i) {
