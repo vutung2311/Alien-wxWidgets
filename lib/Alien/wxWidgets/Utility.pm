@@ -74,7 +74,7 @@ sub awx_capture {
 sub awx_cc_is_msvc {
     my( $cc ) = @_;
 
-    return $^O =~ /MSWin32/ and $cc =~ /^cl/i;
+    return ( $^O =~ /MSWin32/ and $cc =~ /^cl/i ) ? 1 : 0;
 }
 
 sub awx_cc_is_gcc {

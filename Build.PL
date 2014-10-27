@@ -21,6 +21,7 @@ my %VERSIONS =
     '2.9.4'	        => 'patches/data-2.9.4',
     '3.0.0'         => 'patches/data-3.0.0',
     '3.0.1'         => 'patches/data-3.0.1',
+    '3.0.2'         => 'patches/data-3.0.2',
     );
 
 my ($DEFAULT_VERSION, $DEFAULT_ARCHIVE_TYPE) = _get_default_wxwidgets_version_and_type();
@@ -72,13 +73,13 @@ my $build = $class->new
                          'wxWidgets-version'         => { type => '=s' },
                          'wxWidgets-extraflags'      => { type => '=s' },
                          'wxWidgets-userpatch'       => { type => '=s' },
-                         'wxWidgets-graphicscontext' => { type => '!',
-                                                        default => $^O ne 'MSWin32' },
+                         'wxWidgets-graphicscontext' => { type => '!', default => 1 },
                          },
+    
     create_makefile_pl => 'passthrough',
     meta_merge =>
       { resources       =>
-          { 'license'       => 'http://dev.perl.org/licenses/',
+          { 'license'       => [ 'http://dev.perl.org/licenses/' ],
             'homepage'      => 'http://www.wxperl.it/',
             'bugtracker'    => 'http://rt.cpan.org/NoAuth/Bugs.html?Dist=Alien-wxWidgets',
             'repository'    => 'http://svn.code.sf.net/p/wxperl/code/Alien-wxWidgets',
@@ -287,7 +288,7 @@ sub _ask {
 sub _get_default_wxwidgets_version_and_type {
     
     # default version and archive type
-    my $defver = '3.0.1';
+    my $defver = '3.0.2';
     my $deftype = 'tar.bz2';
     
     if( $^O =~ /^linux/i) {
