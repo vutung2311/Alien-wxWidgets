@@ -10,6 +10,7 @@ my $winsetuppatch = ( $FORCE_GTX ) ? 'wxMSW-3.0.1-setup_gctx.patch' : 'wxMSW-3.0
 {   
   msw     => { unicode => [ 
   'wxMSW-3.0.0-makefiles.patch',
+  'wxMSW-3.0.1-defs.patch',
   $winsetuppatch, 
   @common 
   ],
