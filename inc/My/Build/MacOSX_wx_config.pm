@@ -70,40 +70,57 @@ sub wxwidgets_configure_extra_flags {
                                         OBJCFLAGS OBJCXXFLAGS);
     }
     
-    if ( $darwinver >= 13 ) {
-	    # we can't currently build with Xcode 5 on Mavericks
-	    my $xcodestring = qx(xcodebuild --version) || '';
-	    if ($xcodestring =~ /Xcode\s+(\d+)/ ) {
-	        my $xcodever = $1;
-	        if ( $xcodever >= 5) {
-		        print <<EOX;
-=======================================================================
-wxPerl does not currently support building on Mac OSX Mavericks and
-above with Xcode 5.x or greater.
-If you wish to develop using wxPerl on this machine you should remove
-XCode 5.x and download Xcode 4.6.3 from the Apple developer site.
-=======================================================================
-EOX
-                exit 1;
-	        }
-	    }
-    }
+#    if ( $darwinver >= 13 ) {
+#	    # we can't currently build with Xcode 5 on Mavericks
+#	    my $xcodestring = qx(xcodebuild -version) || '';
+#	    if ($xcodestring =~ /Xcode\s+(\d+)/ ) {
+#	        my $xcodever = $1;
+#	        if ( $xcodever >= 5) {
+#		        print <<EOX;
+#=======================================================================
+#wxPerl does not currently support building on Mac OSX Mavericks and
+#above with Xcode 5.x or greater.
+#If you wish to develop using wxPerl on this machine you should remove
+#XCode 5.x and download Xcode 4.6.3 from the Apple developer site.
+#=======================================================================
+#EOX
+#                exit 1;
+#	        }
+#	    }
+#    }
     
     # on Snow Leopard and above, force use of available SDK and min versions
+    
     if( $darwinver >= 10 ) {
+        
 	# SDK 10.7 will not work if we have SDK 10.8 installed too - so reverse order
-        for my $sdkversion ( qw( 10.8 10.7 10.6 ) ) {
+        for my $sdkversion ( qw( 10.9 10.8 10.7 10.6 ) ) {
             my $sdk1 = qq(/Developer/SDKs/MacOSX${sdkversion}.sdk);
 			my $sdk2 = qq(/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX${sdkversion}.sdk);
     		my $macossdk = ( -d $sdk2 ) ? $sdk2 : $sdk1;
     		if( -d $macossdk ) {
-    		    $extra_flags .= qq( --with-macosx-version-min=10.6 --with-macosx-sdk=$macossdk);
+                my $macosmin = ( $sdkversion =~ /^10\.(8|7|6)$/ ) ? '10.6' : '10.7';
+    		    $extra_flags .= qq( --with-macosx-version-min=${macosmin} --with-macosx-sdk=${macossdk});
     		    last;
     		}
     	}
     }
     
     $extra_flags .= ' --enable-graphics_ctx';
+    
+    # now check for flags needed for different xcode versions
+    {
+        my $xcodestring = qx(xcodebuild -version) || '';
+	    if ($xcodestring =~ /Xcode\s+(\d+)\.(\d+)/ ) {
+	        my $majorxcodever = $1;
+	        my $minorxcodever = $2;
+            
+            if (( $majorxcodever > 4 ) || ( $majorxcodever == 4 && $minorxcodever > 3 )) {
+                $extra_flags .= q( CC=clang CXX=clang++ CXXFLAGS="-stdlib=libc++ -std=c++11" OBJCXXFLAGS="-stdlib=libc++ -std=c++11" LDFLAGS=-stdlib=libc++);
+            }
+        }
+    }
+    
 
     return $extra_flags;
 }
