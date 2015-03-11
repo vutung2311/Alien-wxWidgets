@@ -154,9 +154,9 @@ EOP
     require My::Build::Base;
     my $wx_config = My::Build::Base->awx_path_search( 'wx-config' );
     if( $wx_config ) {
-        my $ans = `wx-config --version`;
-        if( $ans =~ /^2\./ ) {
-            my $prefix = `wx-config --prefix`;
+        my $ans = `$wx_config --version`;
+        if( $ans =~ /^[23]\./ ) {
+            my $prefix = `$wx_config --prefix`;
             chomp foreach $ans, $prefix;
             if( _check_installed_widgets_ok($ans, $prefix) ) {
                 $build_wx_dflt = 'no' ;
@@ -180,7 +180,7 @@ if( $ENV{AUTOMATED_TESTING} ) {
     if( $^O ne 'darwin' && $^O ne 'MSWin32' ) {
         my $pkg_config = $ENV{PKG_CONFIG} || 'pkg-config';
         my $ans = `$pkg_config --modversion gtk+-2.0 2>&1`;
-        unless( $ans =~ /^2\./ ) {
+        unless( $ans =~ /^[23]\./ ) {
             print <<EOT;
 Could not detect GTK+ 2 by running '$pkg_config': aborting
 
