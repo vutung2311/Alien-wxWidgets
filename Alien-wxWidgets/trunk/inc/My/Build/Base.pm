@@ -10,6 +10,10 @@ use Fatal qw(open close unlink);
 use Data::Dumper;
 use File::Glob qw(bsd_glob);
 use Carp;
+use lib '.';
+
+# Ensure deterministic output
+$Data::Dumper::Sortkeys = 1;
 
 # use the system version of a module if present; in theory this could lead to
 # compatibility problems (if the latest version of one of the dependencies,
