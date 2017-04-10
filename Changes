@@ -1,6 +1,9 @@
 Revision history for Perl extension Alien::wxWidgets.
 
-0.68  TBR
+0.68  Sat Apr 8 2017
+    - RT:120887 - patch from Jim Keenan for '.' no longer in@INC
+    - RT:94367  - allow ENV setting for wx-config
+    - Fix current OSX builds
 
 0.67  Tue Mar 10 2015
     - pause indexing fix

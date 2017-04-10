@@ -3,7 +3,7 @@
 BEGIN { our $NO_INIT = 1 }
 
 use strict;
-use lib "lib", "inc";
+use lib "./lib", "./inc";
 use My::Build;
 use Config;
 
@@ -152,7 +152,19 @@ $build_prompt
 EOP
 } else {
     require My::Build::Base;
-    my $wx_config = My::Build::Base->awx_path_search( 'wx-config' );
+    
+    my $env_wxconfig = $ENV{WX_CONFIG};
+    if ( $env_wxconfig && !-e $env_wxconfig && $env_wxconfig !~ /wx-config$/ ) {
+        print STDERR qq(
+=============================================================================
+The specified environment WX_CONFIG does not appear to be a valid wx-config :
+$env_wxconfig
+==============================================================================
+        );
+        exit(1);
+    }
+    
+    my $wx_config = $env_wxconfig || My::Build::Base->awx_path_search( 'wx-config' );
     if( $wx_config ) {
         my $ans = `$wx_config --version`;
         if( $ans =~ /^[23]\./ ) {
