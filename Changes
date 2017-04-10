@@ -1,4 +1,5 @@
 Revision history for Perl extension Alien::wxWidgets.
+0.69  TBR
 
 0.68  Sat Apr 8 2017
     - RT:120887 - patch from Jim Keenan for '.' no longer in@INC
