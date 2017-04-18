@@ -1,4 +1,7 @@
 Revision history for Perl extension Alien::wxWidgets.
+
+0.70  TBR
+
 0.69  Tue Apr 18 2017 
     - added build dependency on LWP::Protocol::https - it is always
     - necessary due to sourceforge redirect to https
